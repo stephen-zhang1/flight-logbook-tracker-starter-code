@@ -1,63 +1,51 @@
-import json
-import requests
+# Flight Logbook Tracker
 
+# A list to store all flight logs
 flights = []
 
-def load_flights():
-    global flights
-    try:
-        with open("flights.json", "r") as file:
-            flights = json.load(file)
-    except FileNotFoundError:
-        flights = []
-
-def save_flights():
-    with open("flights.json", "w") as file:
-        json.dump(flights, file, indent=4)
-
-def fetch_metar(icao):
-    print(f"Fetching METAR for {icao}...")
-    # Replace 'YOUR_API_KEY' with your actual API key from avwx.rest
-    headers = {"Authorization": "YOUR_API_KEY"}
-    url = f"https://avwx.rest/api/metar/{icao}?format=json"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return response.json().get("raw", "No METAR data available")
-    else:
-        return "Failed to retrieve METAR data"
-
 def add_flight():
-    flight = {
-        "date": input("Date (YYYY-MM-DD): "),
-        "aircraft": input("Aircraft Type: "),
-        "hours": float(input("Flight Hours: ")),
-        "departure": input("Departure ICAO: "),
-        "arrival": input("Arrival ICAO: "),
-        "remarks": input("Remarks: ")
-    }
-    metar = fetch_metar(flight["departure"])
-    flight["weather_metar"] = metar
-    flights.append(flight)
-    save_flights()
-    print("Flight added and saved.")
+    """Prompt the user for flight details and add to the flights list."""
+    # TODO: Ask for flight details (date, aircraft, hours, etc.)
+    # TODO: Create a dictionary and append it to the flights list
+    pass
 
 def view_flights():
-    for i, flight in enumerate(flights, 1):
-        print(f"Flight {i}: {flight}")
+    """Display all logged flights."""
+    # TODO: Loop through the flights list and print each flight
+    pass
+
+def save_flights():
+    """Save the flight log to a file."""
+    # TODO: Use JSON to save flights to a file
+    pass
+
+def load_flights():
+    """Load the flight log from a file."""
+    # TODO: Read JSON file and load into flights list
+    pass
 
 def main():
-    load_flights()
+    """Main menu loop."""
+    # TODO: Load flights from file if it exists
     while True:
-        print("\n1. Add Flight\n2. View Flights\n3. Exit")
+        print("\nFlight Logbook Menu")
+        print("1. Add Flight")
+        print("2. View Flights")
+        print("3. Save Flights")
+        print("4. Exit")
         choice = input("Choose an option: ")
+
         if choice == "1":
             add_flight()
         elif choice == "2":
             view_flights()
         elif choice == "3":
+            save_flights()
+        elif choice == "4":
+            print("Goodbye!")
             break
         else:
-            print("Invalid option.")
+            print("Invalid option. Try again.")
 
 if __name__ == "__main__":
     main()
